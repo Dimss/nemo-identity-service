@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-export APP_VERSION=0.4
+if [ -z "$1" ]
+then
+      echo "Version is missing. Usage example: ./deploy.sh 0.3 "
+      exit
+fi
+export APP_VERSION=$1
 export PROJECT_NAME=identity
 export PROJECT_NS=nemo
 export DOCKER_REGISTRY=172.30.1.1:5000
