@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'redhat-openjdk18-openshift'
+        }
+    }
     stages {
         stage("HelloWorld1") {
             steps {
