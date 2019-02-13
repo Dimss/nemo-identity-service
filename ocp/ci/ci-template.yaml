@@ -1,0 +1,126 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: nemo-identity-template
+message: |-
+  Nemo Identity service template
+metadata:
+  annotations:
+    description: |-
+      Nemo Identtiy service template
+    iconClass: acorn
+    openshift.io/display-name: Nemo Identity service template
+  name: nemo-identity
+objects:
+# Postgres
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: postgres
+  spec:
+    tags:
+    - from:
+        kind: DockerImage
+        name: postgres
+      name: latest
+      importPolicy:
+        scheduled: true
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: pg
+  spec:
+    selector:
+      app: pg
+    ports:
+    - name: pg
+      port: 5432
+- kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    name: pg
+    labels:
+      app: pg
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pg
+    template:
+      metadata:
+        annotations:
+          sidecar.istio.io/inject: "true"
+        labels:
+          app: pg
+      spec:
+        containers:
+        - name: pg
+          image: "docker-registry.default.svc:5000/${PROJECT_NAME}/postgres:latest"
+          ports:
+          - containerPort: 5432
+- kind: DestinationRule
+  apiVersion: networking.istio.io/v1alpha3
+  metadata:
+    name: pg
+  spec:
+    host: pg
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
+- kind: VirtualService
+  apiVersion: networking.istio.io/v1alpha3
+  metadata:
+    name: pg
+  spec:
+    hosts:
+    - pg
+    tcp:
+    - match:
+      - port: 5432
+      route:
+      - destination:
+          host: pg
+          port:
+            number: 5432
+# APP
+- kind: "ImageStream"
+  apiVersion: "v1"
+  metadata:
+    name: "identity"
+  spec:
+    tags:
+    - from:
+        kind: "DockerImage"
+        name: "docker-registry.default.svc:5000/${PROJECT_NAME}/identity"
+      name: "latest"
+      importPolicy:
+        scheduled: true
+- kind: "BuildConfig"
+  apiVersion: "v1"
+  metadata:
+    name: "identity"
+  spec:
+    runPolicy: "Serial"
+    source:
+      git:
+        uri: "${GIT_REPO_URL}"
+    strategy:
+      sourceStrategy:
+        from:
+          kind: "ImageStreamTag"
+          name: "openjdk18-openshift:latest"
+          namespace: "openshift"
+    output:
+      to:
+        kind: "ImageStreamTag"
+        name: "identity:0.1"
+parameters:
+- description: OCP Project name
+  displayName: OCP Project name
+  name: PROJECT_NAME
+  required: true
+- description: Git repo URL
+  displayName: Git repo URL
+  name: GIT_REPO_URL
+  required: true
+  value: :"https://github.com/Dimss/nemo-identity-service.git"
