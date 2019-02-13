@@ -7,7 +7,7 @@ pipeline {
                     openshift.withCluster() {
                         openshift.withProject() {
                             def ciTemplate = readFile('ocp/ci/ci-template.yaml')
-                            echo ciTemplate
+                            echo ${ciTemplate}
                         }
                     }
                 }
