@@ -13,6 +13,9 @@ pipeline {
                                     "-p=PROJECT_NAME=${currentOcpProject}",
                                     "-p", "GIT_REPO_URL=${scmUrl}")
                             echo "${models.size()}"
+                            for ( o in models ) {
+                                echo "${o}"
+                            }
                         }
                     }
                 }
