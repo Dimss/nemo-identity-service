@@ -26,6 +26,8 @@ pipeline {
                                     echo "${o}"
                                 }
                             }
+
+                            sh "mvn clean install"
                         }
                     }
                 }
