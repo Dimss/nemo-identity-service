@@ -14,10 +14,13 @@ pipeline {
                                     "-p", "GIT_REPO_URL=${scmUrl}")
                             echo "${models.size()}"
                             for (o in models) {
-                                echo "${o}"
-                                echo "${o.metadata}"
-                                echo "${o.metadata.name}"
-                                echo "${o.kind}"
+//                                echo "${o}"
+//                                echo "${o.metadata}"
+//                                echo "${o.metadata.name}"
+//                                echo "${o.kind}"
+                                if (o.kind == "ImageStream" & o.metadata.name == "postgres"){
+                                    echo "${o}"
+                                }
                             }
                         }
                     }
