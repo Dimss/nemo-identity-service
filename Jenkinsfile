@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'maven'
+            label 'any'
         }
     }
     stages {
@@ -28,7 +28,7 @@ pipeline {
                                 }
                             }
 
-                            sh "mvn clean install"
+//                            sh "mvn clean install"
                         }
                     }
                 }
