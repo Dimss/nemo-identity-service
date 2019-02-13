@@ -15,7 +15,7 @@ pipeline {
                             saSelector.withEach { // The closure body will be executed once for each selected object.
                                 // The 'it' variable will be bound to a Selector which selects a single
                                 // object which is the focus of the iteration.
-                                echo "Service account: ${it.name()} is defined in ${openshift.project()}"
+                                echo "Service account: ${ita.name()} is defined in ${openshift.project()}"
                             }
                         }
                     }
