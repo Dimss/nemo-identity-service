@@ -14,8 +14,9 @@ pipeline {
                                     "-p", "GIT_REPO_URL=${scmUrl}")
                             echo "${models.size()}"
                             for ( o in models ) {
-
+                                echo "${o}"
                                 echo "${o.metadata}"
+                                echo "${o.metadata.name}"
                             }
                         }
                     }
