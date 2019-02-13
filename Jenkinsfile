@@ -1,9 +1,10 @@
 pipeline {
-    agent {
-        node {
-            label 'any'
-        }
-    }
+    agent any
+//    agent {
+//        node {
+//            label 'any'
+//        }
+//    }
     stages {
         stage("HelloWorld1") {
             steps {
