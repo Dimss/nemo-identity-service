@@ -17,7 +17,7 @@ pipeline {
                             def models = openshift.process(ciTemplate,
                                     "-p=PROJECT_NAME=${currentOcpProject}",
                                     "-p", "GIT_REPO_URL=${scmUrl}")
-                            openshift.create(models)
+                            openshift.delete(models)
                             echo "${models.size()}"
                             for (o in models) {
 //                                echo "${o}"
