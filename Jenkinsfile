@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'redhat-openjdk18-openshift'
+            label 'maven'
         }
     }
     stages {
