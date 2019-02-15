@@ -14,10 +14,12 @@ pipeline {
                             def ciTemplate = readFile('ocp/ci/ci-template.yaml')
                             def models = openshift.process(
                                     ciTemplate,
-                                    "-p=POSTGRESQL_DATABASE=postgres",
-                                    "-p=POSTGRESQL_PASSWORD=postgres",
-                                    "-p=POSTGRESQL_USER=postgres",
-                                    "-p=DATABASE_SERVICE_NAME=pg")
+                                    "-p=PROJECT_NAME=postgres",
+                                    "-p=GIT_REPO_URL=postgres")
+//                                    "-p=POSTGRESQL_DATABASE=postgres",
+//                                    "-p=POSTGRESQL_PASSWORD=postgres",
+//                                    "-p=POSTGRESQL_USER=postgres",
+//                                    "-p=DATABASE_SERVICE_NAME=pg")
                             echo "${models}"
 //                            openshift.create(models)
 //                            def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
