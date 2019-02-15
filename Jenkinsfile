@@ -18,6 +18,7 @@ pipeline {
                                     "-p=POSTGRESQL_PASSWORD=postgres",
                                     "-p=POSTGRESQL_USER=postgres",
                                     "-p=DATABASE_SERVICE_NAME=pg")
+                            echo "${models}"
 //                            openshift.create(models)
 //                            def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
 //                            def currentOcpProject = openshift.project()
