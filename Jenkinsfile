@@ -13,7 +13,7 @@ pipeline {
                         openshift.withProject() {
                             def ciTemplate = readFile('ocp/ci/ci-template.yaml')
                             def models = openshift.process(
-                                    "openshift//postgresql-ephemeral",
+                                    ciTemplate,
                                     "-p=POSTGRESQL_DATABASE=postgres",
                                     "-p=POSTGRESQL_PASSWORD=postgres",
                                     "-p=POSTGRESQL_USER=postgres",
